@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Grind Luxury Edition</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --accent: #808080;
+            --gray: #f0f0f0;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background: var(--secondary);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container, .order-tracking {
+            position: relative;
+        }
+
+        .search-input, .order-tracking-input {
+            padding: 0.5rem;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            font-size: 1rem;
+            width: 200px;
+        }
+
+        .search-button, .order-tracking-button {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-button:hover, .order-tracking-button:hover {
+            background: var(--accent);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: var(--secondary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://images.unsplash.com/photo-1507133750040-4a8f57021571?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-content {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 5vw, 5rem);
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            opacity: 0.9;
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+
+        /* Menu Section */
+        .menu {
+            padding: 6rem 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .menu-item {
+            background: var(--secondary);
+            border: 1px solid var(--accent);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .menu-item h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item p {
+            font-size: 1rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-price {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+            border-top: 1px solid var(--accent);
+            padding-top: 1rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-btn {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .quantity-btn:hover {
+            background: var(--accent);
+        }
+
+        .add-to-cart {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background: var(--accent);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: var(--secondary);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            padding: 2rem;
+            z-index: 1001;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            max-height: calc(100vh - 250px);
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-item button {
+            background: var(--primary);
+            color: var(--secondary);
+            font-size: 0.9rem;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .cart-item button:hover {
+            background-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .cart-total {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+        }
+
+        .checkout-btn {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav { flex-direction: column; padding: 1rem; }
+            .nav-right { margin-top: 1rem; }
+            .menu { padding: 4rem 1rem 2rem; }
+            .cart-modal { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">Daily Grind</div>
+        <div class="nav-right">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search our premium menu...">
+                <button class="search-button" onclick="searchMenu()">Search</button>
+            </div>
+            <div class="order-tracking">
+                <input type="text" class="order-tracking-input" placeholder="Track your order" id="orderTrackingInput">
+                <button class="order-tracking-button" onclick="trackOrder()">Track</button>
+            </div>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒 <span class="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Daily Grind</h1>
+            <p>"Elevate your daily brew, indulge in luxury."</p>
+        </div>
+    </section>
+
+    <section class="menu">
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>Your Luxury Selection</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-total">
+            <h3>Total: ₱<span id="cartTotal">0.00</span></h3>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        const menuItems = [
+            {
+                id: 1,
+                name: 'Signature Iced Elixir',
+                description: 'Our premium cold-brewed coffee infused with vanilla and caramel',
+                price: 280,
+                image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1769&q=80'
+            },
+            {
+                id: 2,
+                name: 'Luxe Vanilla Cold Brew',
+                description: 'Smooth cold brew with Madagascar vanilla and a touch of gold leaf',
+                price: 320,
+                image: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80'
+            },
+            {
+                id: 3,
+                name: 'Opulent Caramel Frappé',
+                description: 'Indulgent blend with premium caramel and Chantilly cream',
+                price: 350,
+                image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
+            },
+            {
+                id: 4,
+                name: 'Artisanal Mocha Glacé',
+                description: 'Single-origin espresso with artisanal chocolate and chilled milk',
+                price: 300,
+                image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
+            },
+            {
+                id: 5,
+                name: 'Hazelnut Silk Cappuccino',
+                description: 'Velvety cappuccino with premium hazelnut and cocoa dusting',
+                price: 290,
+                image: 'vanila.webp'
+            },
+            {
+                id: 6,
+                name: 'Prestige Espresso Flight',
+                description: 'Curated selection of our finest single-origin espressos',
+                price: 400,
+                image: 'https://images.unsplash.com/photo-1579992357154-faf4bde95b3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
+            }
+        ];
+
+        function initializeMenu() {
+            const menuGrid = document.getElementById('menuGrid');
+            menuItems.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.className = 'menu-item';
+                menuItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="menu-item-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <div class="menu-item-price">₱${item.price.toFixed(2)}</div>
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 'decrease')">-</button>
+                            <span id="quantity-${item.id}">1</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 'increase')">+</button>
+                        </div>
+                        <button class="add-to-cart" onclick="addToCart(${item.id})">Add to Cart</button>
+                    </div>
+                `;
+                menuGrid.appendChild(menuItem);
+            });
+        }
+
+        function updateQuantity(itemId, action) {
+            const quantityElement = document.getElementById(`quantity-${itemId}`);
+            let quantity = parseInt(quantityElement.textContent);
+            
+            if (action === 'increase') {
+                quantity++;
+            } else if (action === 'decrease' && quantity > 1) {
+                quantity--;
+            }
+            
+            quantityElement.textContent = quantity;
+        }
+
+        function addToCart(itemId) {
+            const item = menuItems.find(item => item.id === itemId);
+            const quantity = parseInt(document.getElementById(`quantity-${itemId}`).textContent);
+            
+            const existingItem = cart.find(cartItem => cartItem.id === itemId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    ...item,
+                    quantity
+                });
+            }
+            
+            updateCartUI();
+            showNotification(`Added ${quantity} ${item.name} to your selection`);
+        }
+
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.querySelector('.cart-count');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            let count = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                count += item.quantity;
+                
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>₱${item.price.toFixed(2)} × ${item.quantity}</p>
+                            <button onclick="removeFromCart(${item.id})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartCount.textContent = count;
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const cartModal = document.getElementById('cartModal');
+            cartModal.classList.toggle('active');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--primary);
+                color: var(--secondary);
+                padding: 1rem;
+                border-radius: 5px;
+                animation: fadeIn 0.3s ease-out;
+                z-index: 1002;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Your selection is empty');
+                return;
+            }
+            
+            showNotification('Thank you for your order! Your luxury experience will be ready soon.');
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        function searchMenu() {
+            const searchInput = document.querySelector('.search-input');
+            const query = searchInput.value.toLowerCase();
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(item => {
+                const title = item.querySelector('h3').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+                if (title.includes(query) || description.includes(query)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function trackOrder() {
+            const orderInput = document.getElementById('orderTrackingInput');
+            const orderId = orderInput.value.trim();
+
+            if (orderId === '') {
+                showNotification('Please enter a valid Order ID');
+                return;
+            }
+
+            // Simulate order tracking (replace with actual API call in a real application)
+            const statuses = ['Preparing', 'Quality Check', 'Ready for Pickup', 'On the Way', 'Delivered'];
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+            showNotification(`Order ${orderId}: ${randomStatus}`);
+        }
+
+        window.onload = initializeMenu;
+    </script>
+</body>
+</html>
+
